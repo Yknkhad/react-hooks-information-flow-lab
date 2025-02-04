@@ -4,15 +4,17 @@ import Filter from "../components/Filter";
 
 test("displays the <select> element", () => {
   render(<Filter />);
-  expect(screen.queryByRole("combobox")).toBeInTheDocument();
+  const selectElement = screen.getByRole("combobox");
+  expect(selectElement).toBeInTheDocument();
 });
 
 test("calls the onCategoryChange callback prop when the <select> is changed", () => {
   const onCategoryChange = jest.fn();
   render(<Filter onCategoryChange={onCategoryChange} />);
 
-  fireEvent.change(screen.queryByRole("combobox"), {
+  fireEvent.change(screen.getByRole("combobox"), {
     target: { value: "Dairy" },
   });
-  expect(onCategoryChange).toHaveBeenCalled();
+
+  expect(onCategoryChange).toHaveBeenCalledTimes(1); // Ensures it's called once
 });
